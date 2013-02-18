@@ -10,6 +10,8 @@ red   = '\x1B[0;31m'
 green = '\x1B[0;32m'
 reset = '\x1B[0m'
 
+debug = false
+
 pkg = JSON.parse fs.readFileSync('./package.json')
 
 option '-d', '--debug [COFFEE DEBUG ARG]', 'activate debug mode'
@@ -39,7 +41,7 @@ task 'dev', 'start dev env', (options) ->
   execArray = [
     './node_modules/supervisor/lib/cli-wrapper.js'
     '-w'
-    './'
+    '.'
     '--no-restart-on'
     'exit'
     '-e'
@@ -52,4 +54,4 @@ task 'dev', 'start dev env', (options) ->
   supervisor = spawn 'node', execArray, cmdOpts
   supervisor.stdout.pipe process.stdout
   supervisor.stderr.pipe process.stderr
-  log "Watching js files and running server#{' debug mode' if debug}", green
+  log "Watching js files and running server #{ debug ? ' in debug mode' : ''}", green
